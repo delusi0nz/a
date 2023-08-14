@@ -1,0 +1,119 @@
+-- script made by cool
+
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Parent = player.PlayerGui
+
+local menuFrame = Instance.new("Frame")
+menuFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
+menuFrame.Position = UDim2.new(0.35, 0, 0.25, 0)
+menuFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+menuFrame.BorderColor3 = Color3.new(0, 0, 0)
+menuFrame.BorderSizePixel = 4
+menuFrame.Active = true
+menuFrame.Draggable = true
+menuFrame.Parent = gui
+
+local menuTitle = Instance.new("TextLabel")
+menuTitle.Size = UDim2.new(1, 0, 0, 30)
+menuTitle.Position = UDim2.new(0, 0, 0, 0)
+menuTitle.BackgroundTransparency = 1
+menuTitle.Text = "CoolMenu v1 by cool"
+menuTitle.TextColor3 = Color3.new(1, 1, 1)
+menuTitle.TextSize = 18
+menuTitle.Parent = menuFrame
+
+local closeButton = Instance.new("TextButton")
+-- (Resto del código igual que antes...)
+
+local increaseSpeedButton = Instance.new("TextButton")
+increaseSpeedButton.Size = UDim2.new(0, 150, 0, 30)
+increaseSpeedButton.Position = UDim2.new(0.5, -75, 0, 40)
+increaseSpeedButton.BackgroundColor3 = Color3.new(0.2, 0.6, 0.2)
+increaseSpeedButton.Text = "+ speed"
+increaseSpeedButton.TextColor3 = Color3.new(1, 1, 1)
+increaseSpeedButton.Parent = menuFrame
+
+local decreaseSpeedButton = Instance.new("TextButton")
+decreaseSpeedButton.Size = UDim2.new(0, 150, 0, 30)
+decreaseSpeedButton.Position = UDim2.new(0.5, -75, 0, 80)
+decreaseSpeedButton.BackgroundColor3 = Color3.new(0.6, 0.2, 0.2)
+decreaseSpeedButton.Text = "- speed"
+decreaseSpeedButton.TextColor3 = Color3.new(1, 1, 1)
+decreaseSpeedButton.Parent = menuFrame
+
+local showFpsButton = Instance.new("TextButton")
+showFpsButton.Size = UDim2.new(0, 150, 0, 30)
+showFpsButton.Position = UDim2.new(0.5, -75, 0, 120)
+showFpsButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.6)
+showFpsButton.Text = "show fps"
+showFpsButton.TextColor3 = Color3.new(1, 1, 1)
+showFpsButton.Parent = menuFrame
+
+local teleportButton = Instance.new("TextButton")
+teleportButton.Size = UDim2.new(0, 150, 0, 30)
+teleportButton.Position = UDim2.new(0.5, -75, 0, 160)
+teleportButton.BackgroundColor3 = Color3.new(0.2, 0.4, 0.6)
+teleportButton.Text = "tp to player"
+teleportButton.TextColor3 = Color3.new(1, 1, 1)
+teleportButton.Parent = menuFrame
+
+local playerUsernameTextBox = Instance.new("TextBox")
+playerUsernameTextBox.Size = UDim2.new(0.6, 0, 0, 30)
+playerUsernameTextBox.Position = UDim2.new(0.5, -140, 0, 200)
+playerUsernameTextBox.PlaceholderText = "insert user here"
+playerUsernameTextBox.Parent = menuFrame
+
+local fpsLabel = Instance.new("TextLabel")
+-- (Resto del código igual que antes...)
+
+local killButton = Instance.new("TextButton")
+killButton.Size = UDim2.new(0, 150, 0, 30)
+killButton.Position = UDim2.new(0.5, -75, 0, 240)
+killButton.BackgroundColor3 = Color3.new(0.6, 0.2, 0.2)
+killButton.Text = "refresh avatar"
+killButton.TextColor3 = Color3.new(1, 1, 1)
+killButton.Parent = menuFrame
+
+closeButton.MouseButton1Click:Connect(function()
+    menuFrame.Parent = nil
+end)
+
+increaseSpeedButton.MouseButton1Click:Connect(function()
+    player.Character.Humanoid.WalkSpeed = player.Character.Humanoid.WalkSpeed + 10
+end)
+
+decreaseSpeedButton.MouseButton1Click:Connect(function()
+    player.Character.Humanoid.WalkSpeed = player.Character.Humanoid.WalkSpeed - 10
+end)
+
+local function updateFpsLabel()
+    local fps = math.floor(1 / game:GetService("RunService").RenderStepped:Wait())
+    fpsLabel.Text = "FPS: " .. fps
+end
+
+showFpsButton.MouseButton1Click:Connect(function()
+    if not fpsLabel.Parent then
+        fpsLabel.Parent = menuFrame
+        game:GetService("RunService").RenderStepped:Connect(updateFpsLabel)
+    else
+        fpsLabel.Parent = nil
+    end
+end)
+
+teleportButton.MouseButton1Click:Connect(function()
+    local targetUsername = playerUsernameTextBox.Text
+    local targetPlayer = game.Players:FindFirstChild(targetUsername)
+    if targetPlayer then
+        local targetCharacter = targetPlayer.Character
+        if targetCharacter then
+            player.Character.HumanoidRootPart.CFrame = targetCharacter.HumanoidRootPart.CFrame
+        end
+    end
+end)
+
+killButton.MouseButton1Click:Connect(function()
+    player.Character:BreakJoints()
+end)
+
+menuFrame.Parent = gui
