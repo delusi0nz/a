@@ -1,4 +1,4 @@
-coolmenu version 1
+coolmenu version 1.0
 roblox script
 made by coolplay3rh4x a.k.a cool
 
